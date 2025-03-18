@@ -1,6 +1,7 @@
-# Dockerfile for React Frontend
+# Use a minimal Node.js base image
 FROM node:18-alpine
 
+# Set the working directory inside the container
 WORKDIR /app
 
 # Copy package files and install dependencies
@@ -13,7 +14,7 @@ COPY frontend/ .
 # Build the React app for production
 RUN npm run build
 
-# Optionally, use a simple static server like serve to host the build
+# Optionally, use a simple static server like `serve` to host the build
 RUN npm install -g serve
 
 # Expose the port

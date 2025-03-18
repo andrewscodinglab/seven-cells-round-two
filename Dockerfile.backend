@@ -1,6 +1,7 @@
-# Dockerfile for Django Backend
+# Use a minimal Python base image
 FROM python:3.11-slim
 
+# Set the working directory inside the container
 WORKDIR /app
 
 # Copy requirements and install dependencies
@@ -10,8 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the backend code into the container
 COPY backend/ .
 
-# Expose the Django port
+# Set environment variables for Django (Optional, if using .env file)
+ENV PYTHONUNBUFFERED=1
+
+# Expose the backend port
 EXPOSE 8000
 
-# Start the Django server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use Gunicorn for production instead of Django's runserver
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "sevencells.wsgi:application"]
